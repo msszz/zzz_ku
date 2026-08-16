@@ -186,6 +186,10 @@ st.markdown(
 )
 
 
+# 固定公网访问地址：二维码始终指向这里
+PUBLIC_APP_URL = "https://bxebienmmet3ovlppxaaj.streamlit.app"
+
+
 # ============================================================
 # 1. 误差问题库 / 原因库
 # ============================================================
@@ -857,35 +861,23 @@ with action_col:
 
 
 # ============================================================
-# 7. 二维码访问（折叠，不占主界面）
+# 7. 二维码访问（固定公网地址）
 # ============================================================
-with st.expander("📱 扫码访问 / 二维码"):
-    suggested_url = local_url()
+with st.expander("📱 扫码访问 / 固定二维码"):
+    st.write("下面的二维码固定指向当前 Streamlit 公网应用：")
 
-    share_url = st.text_input(
-        "输入要生成二维码的网址",
-        value=suggested_url,
-        help=(
-            "局域网使用时，手机和电脑需连接同一个 Wi‑Fi；"
-            "公网部署后，改成固定的 Streamlit 公网网址。"
-        ),
-        key="share_url",
-    )
+    share_url = PUBLIC_APP_URL
+    qr_bytes = make_qr_png(share_url)
 
-    if share_url.strip():
-        qr_bytes = make_qr_png(share_url.strip())
-        qr_col, info_col = st.columns([1, 2.5])
+    qr_col, info_col = st.columns([1, 2.5])
 
-        with qr_col:
-            st.image(qr_bytes, caption="手机扫码打开程序", width=230)
+    with qr_col:
+        st.image(qr_bytes, caption="固定二维码：手机扫码打开程序", width=230)
 
-        with info_col:
-            st.code(share_url.strip())
-            st.write(
-                "局域网访问：电脑和手机连接同一 Wi‑Fi，"
-                "并确保 Windows 防火墙允许 Python/Streamlit 访问 8501 端口。"
-            )
-            st.write(
-                "公网访问：部署到 Streamlit Community Cloud 等服务器后，"
-                "把这里的网址替换为固定公网地址，再生成二维码。"
-            )
+    with info_col:
+        st.code(share_url)
+        st.success("此二维码已固定为公网地址，不再使用 127.0.0.1 或局域网 IP。")
+        st.write(
+            "以后只要这个 Streamlit 应用网址保持不变，"
+            "即使你更新 GitHub 中的 app.py，二维码也不需要重新生成。"
+        )
