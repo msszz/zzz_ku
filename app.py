@@ -187,7 +187,7 @@ st.markdown(
 
 
 # 固定公网访问地址：二维码始终指向这里
-PUBLIC_APP_URL = "https://bxebienmmet3ovlppxaaj.streamlit.app"
+PUBLIC_APP_URL = "https://latuofa.streamlit.app"
 
 
 # ============================================================
@@ -860,24 +860,3 @@ with action_col:
         st.rerun()
 
 
-# ============================================================
-# 7. 二维码访问（固定公网地址）
-# ============================================================
-with st.expander("📱 扫码访问 / 固定二维码"):
-    st.write("下面的二维码固定指向当前 Streamlit 公网应用：")
-
-    share_url = PUBLIC_APP_URL
-    qr_bytes = make_qr_png(share_url)
-
-    qr_col, info_col = st.columns([1, 2.5])
-
-    with qr_col:
-        st.image(qr_bytes, caption="固定二维码：手机扫码打开程序", width=230)
-
-    with info_col:
-        st.code(share_url)
-        st.success("此二维码已固定为公网地址，不再使用 127.0.0.1 或局域网 IP。")
-        st.write(
-            "以后只要这个 Streamlit 应用网址保持不变，"
-            "即使你更新 GitHub 中的 app.py，二维码也不需要重新生成。"
-        )
