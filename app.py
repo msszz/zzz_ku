@@ -859,4 +859,28 @@ with action_col:
         clear_all()
         st.rerun()
 
+# ============================================================
+# 7. 扫码访问 / 固定二维码
+# ============================================================
+st.markdown(
+    '<div class="title-red">4. 扫码访问 / 固定二维码</div>',
+    unsafe_allow_html=True,
+)
+
+with st.container(border=True):
+    st.write("下面的二维码固定指向当前 Streamlit 公网应用：")
+
+    share_url = PUBLIC_APP_URL
+    qr_bytes = make_qr_png(share_url)
+
+    qr_col, info_col = st.columns([1.0, 3.2], gap="medium")
+
+    with qr_col:
+        st.image(
+            qr_bytes,
+            caption="微信扫码打开程序",
+            width=230,
+        )
+
+
 
